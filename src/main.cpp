@@ -1,39 +1,98 @@
 #include <iostream>
 #include <sstream>
 #include <ctime>
-#include <memory>
+#include <ranges>
+#include <print>
 
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
 
+#include <kumo/StreamWrapper.hpp>
 
 std::string ASSETS_DIR = "/home/laughingclouds/projects/Kumo/assets/";
 
-int main()
+/**Read metadata values and save into a stringstream object */
+template <kumo::StreamLike T>
+void extract_metadata(const poppler::document *doc, std::string DOCUMENT_NAME, T &ss)
 {
-    std::string DOCUMENT_NAME = "2June2025_HemantBhandari_Resume.pdf";
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(ASSETS_DIR + DOCUMENT_NAME));
-
-    if (doc == NULL)
-    {
-        std::cerr << "Error: Could not find file" << std::endl;
-        return -1;
-    }
-
     time_t doc_creation_date = doc->get_creation_date_t();
     char *dt = ctime(&doc_creation_date);
 
-    std::stringstream ss;
     ss << "File: " << DOCUMENT_NAME << " found\n";
     ss << "Created: " << dt;
     ss << "Number of pages: " << doc->pages();
+}
 
-    std::cout << ss.str() << std::endl;
-    ss.clear();
+/**Write metadata to stdout then prompt user to continue printing per page */
+void read_pdf(std::string DOCUMENT_NAME)
+{
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(ASSETS_DIR + DOCUMENT_NAME));
 
-    std::unique_ptr<poppler::page> pg(doc->create_page(0));
+    if (doc == NULL)
+        std::cerr << "Error: Could not find file" << std::endl;
+
+    kumo::PrintOnceStringStream ss;
+
+    extract_metadata(doc.get(), DOCUMENT_NAME, ss);
+    ss.println();
+    std::println("----------------------------------");
+
+    bool isReadNextPage = true;
+    int page_index = 0;
+
+    // read first page and then prompt user to continue
+    while(true) {
+        // return once all pages have been read
+        if (page_index >= doc->pages())
+            return;
+        if (isReadNextPage)
+        {            
+            std::unique_ptr<poppler::page> pg(doc->create_page(page_index));
+            ss << pg->text().to_latin1();
+            ss.println();
+
+            std::println("page: {}", page_index + 1);
+
+            isReadNextPage = false;
+            page_index++;
+        }
+
+        char continue_read;
+        std::print("Next page(y/n): ");
+        std::cin >> continue_read;
+
+        if (continue_read == 'y')
+            isReadNextPage = true;
+        else if (continue_read == 'n')
+            return;
+    }
     
-    ss << "Content:\n";
-    ss << pg->text().to_latin1();
-    std::cout << ss.str() << std::endl;
+}
+
+int main()
+{
+    std::string options[3] = {
+        "2June2025_HemantBhandari_Resume.pdf",
+        "virtual_id.pdf",
+        "combinatorics.pdf",
+    };
+    int choice;
+
+    std::stringstream ss;
+    ss << "Select one option:\n";
+
+    for (auto const [index, filename] : std::views::enumerate(options))
+        ss << index << ": " << filename << "\n";
+
+    ss << "Your choice: ";
+    std::print("{}", ss.str());
+
+    std::cin >> choice;
+
+    std::println("----------------------------------");
+
+    std::string DOCUMENT_NAME = options[choice];
+    read_pdf(DOCUMENT_NAME);
+
+    return 0;
 }
