@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
 
 project(Kumo)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -14,5 +14,14 @@ pkg_check_modules(POPPLERCPP REQUIRED poppler-cpp)
 
 add_executable(kumo src/main.cpp)
 
+# kumo lib implementations
+target_sources(kumo PRIVATE src/StreamWrapper.cpp)
+
+# kumo libs
+target_include_directories(kumo PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+# 3rd party libs
 target_include_directories(kumo PRIVATE ${POPPLERCPP_INCLUDE_DIRS})
 target_link_libraries(kumo PRIVATE ${POPPLERCPP_LIBRARIES})
+
+target_compile_options(kumo PRIVATE -Wall -Wextra -Werror)
