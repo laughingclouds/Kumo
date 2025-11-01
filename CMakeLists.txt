@@ -6,6 +6,7 @@ if(CLANG_CPP_COMPILER)
     message(STATUS "Using clang++: ${CLANG_CPP_COMPILER}")
     set(CMAKE_CXX_COMPILER clang++)
 else()
+    set(CMAKE_CXX_COMPILER g++-14)
     message(WARNING "clang++ not found, using default compiler: ${CMAKE_CXX_COMPILER}")
 endif()
 

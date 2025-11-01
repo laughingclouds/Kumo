@@ -19,8 +19,17 @@ Currently Kumo has the following (build) dependencies:
 - [poppler](https://gitlab.freedesktop.org/poppler/poppler)
 - (optional) clang
 - (Optional) [mold linker](https://github.com/rui314/mold)
+- gcc (>=14) or clang (>=18) since we're using the c++23 standard
 
 By default cmake will try to use clang + mold. If they don't exist, the default compiler and/or linker will be used.
+
+#### libpoppler
+
+On linux mint,
+
+```
+sudo apt install libpoppler-cpp-dev
+```
 
 ### Compile
 
