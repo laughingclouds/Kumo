@@ -36,7 +36,7 @@ sudo apt install libpoppler-cpp-dev
 ```
 git clone https://github.com/laughingclouds/Kumo.git
 cd Kumo
-cmake -B build
+cmake -B build -DCMAKE_CXX_COMPILER=g++-14
 cmake --build build
 ```
 
