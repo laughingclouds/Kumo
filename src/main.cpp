@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <sstream>
 #include <ctime>
 #include <ranges>
@@ -9,7 +10,9 @@
 
 #include <kumo/StreamWrapper.hpp>
 
-std::string ASSETS_DIR = "/home/laughingclouds/projects/Kumo/assets/";
+namespace fs = std::filesystem;
+
+const fs::path ASSETS_DIR = "/home/laughingclouds/projects/Kumo/assets/";
 
 /**Read metadata values and save into a stringstream object */
 template <kumo::StreamLike T>
@@ -26,7 +29,9 @@ void extract_metadata(const poppler::document *doc, std::string DOCUMENT_NAME, T
 /**Write metadata to stdout then prompt user to continue printing per page */
 void read_pdf(std::string DOCUMENT_NAME)
 {
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(ASSETS_DIR + DOCUMENT_NAME));
+    fs::path file_path = ASSETS_DIR / DOCUMENT_NAME;
+    std::println("{}", file_path);
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(file_path.string()));
 
     if (doc == NULL)
         std::cerr << "Error: Could not find file" << std::endl;
