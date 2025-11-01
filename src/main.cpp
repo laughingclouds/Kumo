@@ -1,6 +1,5 @@
 #include <iostream>
 #include <filesystem>
-#include <sstream>
 #include <ctime>
 #include <ranges>
 #include <print>
@@ -12,7 +11,12 @@
 
 namespace fs = std::filesystem;
 
+#ifdef _WIN32
+// const fs::path ASSETS_DIR = "D:\\kewd-playground\\cpp-playground\\projects\\Kumo\\assets\\";
+const fs::path ASSETS_DIR = "./assets/";
+#else
 const fs::path ASSETS_DIR = "/home/laughingclouds/projects/Kumo/assets/";
+#endif
 
 /**Read metadata values and save into a stringstream object */
 template <kumo::StreamLike T>
@@ -30,11 +34,18 @@ void extract_metadata(const poppler::document *doc, std::string DOCUMENT_NAME, T
 void read_pdf(std::string DOCUMENT_NAME)
 {
     fs::path file_path = ASSETS_DIR / DOCUMENT_NAME;
-    std::println("{}", file_path.string());
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(file_path.string()));
+
+    std::cout << "Loading: " << file_path.string().c_str() << '\n';
+    std::cout << "Exists: " << std::filesystem::exists(file_path) << '\n';
+
+    // std::println("{}", file_path.string());
+    auto doc = std::unique_ptr<poppler::document>(poppler::document::load_from_file(file_path.string()));
 
     if (doc == NULL)
+    {
         std::cerr << "Error: Could not find file" << std::endl;
+        std::exit(-1);
+    }
 
     kumo::PrintOnceStringStream ss;
 
@@ -46,12 +57,13 @@ void read_pdf(std::string DOCUMENT_NAME)
     int page_index = 0;
 
     // read first page and then prompt user to continue
-    while(true) {
+    while (true)
+    {
         // return once all pages have been read
         if (page_index >= doc->pages())
             return;
         if (isReadNextPage)
-        {            
+        {
             std::unique_ptr<poppler::page> pg(doc->create_page(page_index));
             ss << pg->text().to_latin1();
             ss.println();
@@ -71,11 +83,11 @@ void read_pdf(std::string DOCUMENT_NAME)
         else if (continue_read == 'n')
             return;
     }
-    
 }
 
 int main()
 {
+    std::println("{}", fs::current_path().string());
     std::string options[3] = {
         "2June2025_HemantBhandari_Resume.pdf",
         "virtual_id.pdf",
