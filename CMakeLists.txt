@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
 
+# check for clang
+find_program(CLANG_CPP_COMPILER clang++)
+if(CLANG_CPP_COMPILER)
+    message(STATUS "Using clang++: ${CLANG_CPP_COMPILER}")
+    set(CMAKE_CXX_COMPILER clang++)
+else()
+    message(WARNING "clang++ not found, using default compiler: ${CMAKE_CXX_COMPILER}")
+endif()
+
 project(Kumo)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-set(CMAKE_CXX_COMPILER clang++)
 
 # check for mold linker
 find_program(MOLD_LINKER mold)
