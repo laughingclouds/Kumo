@@ -12,13 +12,13 @@ Until then, feel free to compile Kumo yourself and play around with it.
 
 ### Dependencies
 
-I have hardcoded the compiler and linker options in the `CMakeLists.txt` file. You can make changes if you want to.
+I have hardcoded the compiler and ~~linker~~ options in the `CMakeLists.txt` file. You can make changes if you want to.
 
 With that in mind, currently Kumo has the following dependencies:
 
 - [poppler](https://gitlab.freedesktop.org/poppler/poppler)
 - clang
-- [mold linker](https://github.com/rui314/mold)
+- (Optional) [mold linker](https://github.com/rui314/mold)
 
 Please make sure you have at least poppler installed (and make necessary changes if you wish to use a different compiler + linker).
 

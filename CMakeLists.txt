@@ -7,7 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_COMPILER clang++)
-add_link_options(-fuse-ld=mold)
+
+# check for mold linker
+find_program(MOLD_LINKER mold)
+if(MOLD_LINKER)
+    message(STATUS "Using mold linker: ${MOLD_LINKER}")
+    add_link_options(-fuse-ld=mold)
+else()
+    message(WARNING "mold linker not found, using default linker")
+endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(POPPLERCPP REQUIRED poppler-cpp)
