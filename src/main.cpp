@@ -30,7 +30,7 @@ void extract_metadata(const poppler::document *doc, std::string DOCUMENT_NAME, T
 void read_pdf(std::string DOCUMENT_NAME)
 {
     fs::path file_path = ASSETS_DIR / DOCUMENT_NAME;
-    std::println("{}", file_path);
+    std::println("{}", file_path.string());
     std::unique_ptr<poppler::document> doc(poppler::document::load_from_file(file_path.string()));
 
     if (doc == NULL)
