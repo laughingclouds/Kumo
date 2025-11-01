@@ -1,6 +1,7 @@
 .vscode
 build
 assets
+dump
 
 ### https://github.com/github/gitignore
 
