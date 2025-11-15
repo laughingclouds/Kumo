@@ -12,8 +12,7 @@
 namespace fs = std::filesystem;
 
 #ifdef _WIN32
-// const fs::path ASSETS_DIR = "D:\\kewd-playground\\cpp-playground\\projects\\Kumo\\assets\\";
-const fs::path ASSETS_DIR = "./assets/";
+const fs::path ASSETS_DIR = "D:\\kewd-playground\\cpp-playground\\projects\\Kumo\\assets\\";
 #else
 const fs::path ASSETS_DIR = "/home/laughingclouds/projects/Kumo/assets/";
 #endif
