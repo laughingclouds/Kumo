@@ -1,0 +1,8 @@
+{
+  "name": "kumo",
+  "builtin-baseline": "dce593dde6a57cdb75f14c5dd33d21915057457a",
+  "dependencies": [
+    "poppler",
+    "pkgconf"
+  ]
+}
