@@ -23,8 +23,8 @@ target_include_directories(kumo PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 # 3rd party libs
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(POPPLERCPP REQUIRED IMPORTED_TARGET poppler-cpp)
-target_link_libraries(kumo PRIVATE PkgConfig::POPPLERCPP)
+pkg_check_modules(POPPLER_CPP REQUIRED IMPORTED_TARGET poppler-cpp)
+target_link_libraries(kumo PRIVATE PkgConfig::POPPLER_CPP)
 
 # compiler options
 if (UNIX)
