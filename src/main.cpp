@@ -1,8 +1,8 @@
-#include <iostream>
-#include <filesystem>
 #include <ctime>
-#include <ranges>
+#include <filesystem>
+#include <iostream>
 #include <print>
+#include <ranges>
 
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
