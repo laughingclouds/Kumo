@@ -1,6 +1,6 @@
 #include <print>
 
-#include <kumo/StreamWrapper.hpp>
+#include "StreamWrapper.hpp"
 
 namespace kumo
 {

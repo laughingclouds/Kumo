@@ -3,6 +3,9 @@ build
 assets
 dump
 
+vcpkg_installed/*
+out/*
+
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,c++,visualstudio
 

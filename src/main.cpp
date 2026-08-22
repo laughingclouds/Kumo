@@ -7,7 +7,7 @@
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
 
-#include <kumo/StreamWrapper.hpp>
+#include "StreamWrapper.hpp"
 
 namespace fs = std::filesystem;
 
